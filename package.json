@@ -1,0 +1,11 @@
+{
+  "name": "outlook-doble-check",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Complemento de Outlook (nuevo) que pide confirmación antes de enviar: una si es interno, dos si hay externos.",
+  "scripts": {
+    "test": "node --test",
+    "certs": "npx --yes office-addin-dev-certs install",
+    "serve": "npx --yes http-server . -p 3000 -S -C \"%USERPROFILE%\\.office-addin-dev-certs\\localhost.crt\" -K \"%USERPROFILE%\\.office-addin-dev-certs\\localhost.key\" --cors -c-1"
+  }
+}

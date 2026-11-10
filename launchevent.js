@@ -281,11 +281,12 @@ function dcIsClassicOutlook() {
 
 // Aviso con "Enviar de todos modos" / "No enviar".
 function dcPrompt(event, plain, markdown) {
+  var enums = Office.MailboxEnums || {};
   event.completed({
     allowEvent: false,
     errorMessage: plain,
     errorMessageMarkdown: markdown,
-    sendModeOverride: Office.MailboxEnums.SendModeOverride.PromptUser
+    sendModeOverride: enums.SendModeOverride ? enums.SendModeOverride.PromptUser : "promptUser"
   });
 }
 
@@ -460,4 +461,10 @@ function dcConfirmExternal(event) {
 if (typeof Office !== "undefined" && Office.actions && typeof Office.actions.associate === "function") {
   Office.actions.associate("onMessageSendHandler", onMessageSendHandler);
   Office.actions.associate("dcConfirmExternal", dcConfirmExternal);
+}
+
+// IMPRESCINDIBLE en Outlook nuevo / web: Office.js no entrega el evento al manejador hasta que la
+// página llama a Office.onReady(). Sin esta línea el envío se queda en "está procesando el mensaje".
+if (typeof Office !== "undefined" && typeof Office.onReady === "function") {
+  Office.onReady(function () {});
 }
